@@ -1,0 +1,3 @@
+# Tests and temporary scratch calculation files
+calc_*.js
+test_*.js

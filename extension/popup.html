@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tabone</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="4"/>
+            <path d="M7 8h10"/>
+            <path d="M12 8v8"/>
+            <circle cx="12" cy="18" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">tabone</span>
+          <span class="version-tag">v1.0</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="tabCountBadge" class="badge">0 tabs</span>
+        <button id="settingsBtn" class="icon-btn" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Settings Panel (Toggled) -->
+    <div id="settingsPanel" class="settings-panel hidden">
+      <div class="settings-title">Preferences</div>
+      <div class="setting-item">
+        <label for="viewerUrlInput">Viewer Web App URL</label>
+        <div class="input-row">
+          <input type="text" id="viewerUrlInput" placeholder="https://jack4z1.github.io/tabone/">
+          <button id="resetUrlBtn" class="small-btn">Reset</button>
+        </div>
+        <div class="preset-row">
+          <button id="presetGithubBtn" class="preset-btn">GitHub Pages</button>
+          <button id="presetWifiBtn" class="preset-btn">Local Wi-Fi (192.168.0.103)</button>
+        </div>
+        <span class="setting-hint">To scan with your phone, this URL must be published on GitHub Pages or running on your local Wi-Fi.</span>
+      </div>
+
+      <!-- QR Grid & Version Selector -->
+      <div class="setting-item">
+        <div class="setting-label">QR Version (Grid Size)</div>
+        <div class="selector-group">
+          <button type="button" class="option-btn active" id="btnVer18" data-version="18">Version 18 (89×89)</button>
+          <button type="button" class="option-btn" id="btnVer35" data-version="35">Version 35 (157×157)</button>
+        </div>
+        <span class="setting-hint" id="versionHintText">V18 has larger blocks for older cameras; V35 fits more tabs.</span>
+      </div>
+
+      <!-- Error Correction Level Selector -->
+      <div class="setting-item">
+        <div class="setting-label">Error Correction Level</div>
+        <div class="selector-group four-way">
+          <button type="button" class="option-btn" id="btnLevelL" data-level="L">L (7%)</button>
+          <button type="button" class="option-btn active" id="btnLevelM" data-level="M">M (15%)</button>
+          <button type="button" class="option-btn" id="btnLevelQ" data-level="Q">Q (25%)</button>
+          <button type="button" class="option-btn" id="btnLevelH" data-level="H">H (30%)</button>
+        </div>
+        <span class="setting-hint">Damage/glare recovery redundancy.</span>
+      </div>
+
+      <!-- Realtime Capacity & Recommended Max Tabs Info Card -->
+      <div class="capacity-info-card">
+        <div class="capacity-row">
+          <span class="capacity-title">Safe Tab Capacity</span>
+          <span class="capacity-value highlight" id="safeTabsDisplay">Up to ~4 tabs</span>
+        </div>
+        <div class="capacity-row sub">
+          <span class="capacity-sublabel">Total Data Budget</span>
+          <span class="capacity-subval" id="byteBudgetDisplay">560 Bytes</span>
+        </div>
+        <div class="capacity-row sub">
+          <span class="capacity-sublabel">Safety Buffer</span>
+          <span class="capacity-subval" id="safetyBufferDisplay">15% comfortable margin</span>
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">PIN Protection</div>
+            <div class="setting-hint">Encrypt payload with a 4-digit code</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="pinToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div id="pinInputWrapper" class="pin-wrapper hidden">
+          <input type="password" id="pinCodeInput" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="Enter 4-6 digit numeric PIN">
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Stage Section -->
+    <div class="qr-section">
+      <div class="qr-glow-card">
+        <div class="qr-wrapper">
+          <canvas id="qrCanvas" width="260" height="260"></canvas>
+        </div>
+        <div class="qr-caption">
+          <span class="live-dot"></span>
+          <span id="qrStatusText">QR Version 18 (89×89) • Level M Security</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button id="copyLinkBtn" class="action-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+          </svg>
+          <span id="copyLinkText">Copy Link</span>
+        </button>
+        <button id="openViewerBtn" class="action-btn secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" x2="21" y1="14" y2="3"/>
+          </svg>
+          <span>Test on PC</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Selection Section -->
+    <div class="tab-list-section">
+      <div class="tab-list-header">
+        <div class="tab-list-title-group">
+          <span class="tab-list-title">Tabs to Include</span>
+          <span id="tabSelectionCount" class="tab-selection-count">0 of 0</span>
+        </div>
+        <div class="selection-toggles">
+          <button id="selectAllBtn" class="toggle-pill-btn select-all" type="button" title="Select all tabs">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Select All</span>
+          </button>
+          <button id="deselectAllBtn" class="toggle-pill-btn deselect-all" type="button" title="Deselect all tabs">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <span>Deselect All</span>
+          </button>
+        </div>
+      </div>
+      <div id="tabList" class="tab-list-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Bottom Footer Safety Controls -->
+    <footer class="footer">
+      <label class="checkbox-label" for="closeTabsToggle">
+        <input type="checkbox" id="closeTabsToggle">
+        <span class="custom-checkbox"></span>
+        <span class="checkbox-text">Close tabs on this PC after scanning</span>
+      </label>
+      <button id="closeTabsNowBtn" class="danger-btn hidden">
+        Close 0 Tabs Now
+      </button>
+    </footer>
+  </div>
+
+  <script src="lib/qrcode.min.js"></script>
+  <script src="lib/lz-string.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
