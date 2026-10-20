@@ -47,8 +47,8 @@ Your phone needs a webpage to open the tab list. Choose whichever method fits yo
 
 ### Option A: Local Wi-Fi (Instant — Zero Internet Setup)
 1. In your `tabone` folder, double-click **`start_wifi_hub.bat`**.
-2. It automatically starts a lightweight local server and displays your local Wi-Fi URL (e.g. `http://192.168.0.103:8080/web/`).
-3. In the extension Settings (⚙️), click **Local Wi-Fi**.
+2. It automatically starts a lightweight local server and displays your local Wi-Fi URL (e.g. `http://192.168.1.50:8080/web/`).
+3. In the extension Settings (⚙️), click **Local Wi-Fi Hub** and enter your IP.
 4. Scan and view your tabs instantly on your local home or office network!
 
 ### Option B: Free GitHub Pages (Cloud Access Anywhere)

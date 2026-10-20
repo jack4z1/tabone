@@ -4,7 +4,6 @@
 
   // Default GitHub Pages viewer URL for the user's repository
   const GITHUB_PAGES_PRESET = 'https://jack4z1.github.io/tabone/';
-  const LOCAL_WIFI_PRESET = 'http://192.168.0.103:8080/web/';
   const DEFAULT_VIEWER_URL = GITHUB_PAGES_PRESET;
 
   // Tracking query parameters to remove (comprehensive multi-platform ad/tracking strip)
@@ -573,10 +572,20 @@
 
     if (presetWifiBtn) {
       presetWifiBtn.addEventListener('click', () => {
-        viewerBaseUrl = LOCAL_WIFI_PRESET;
-        viewerUrlInput.value = LOCAL_WIFI_PRESET;
-        saveSettings();
-        updateQrCode();
+        const currentIpMatch = viewerBaseUrl.match(/^https?:\/\/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+):/);
+        const defaultPrompt = currentIpMatch ? currentIpMatch[1] : '192.168.1.100';
+        const enteredIp = prompt(
+          "Enter your computer's Wi-Fi IP address (as shown in start_wifi_hub.bat):",
+          defaultPrompt
+        );
+        if (enteredIp && enteredIp.trim()) {
+          const cleanIp = enteredIp.trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/:\d+$/, '');
+          const wifiUrl = `http://${cleanIp}:8080/web/`;
+          viewerBaseUrl = wifiUrl;
+          viewerUrlInput.value = wifiUrl;
+          saveSettings();
+          updateQrCode();
+        }
       });
     }
 
