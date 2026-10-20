@@ -126,7 +126,7 @@
   function loadSettings() {
     if (chrome && chrome.storage && chrome.storage.local) {
       chrome.storage.local.get(['viewerUrl', 'pinEnabled', 'qrVersion', 'qrLevel'], (data) => {
-        if (data.viewerUrl && !data.viewerUrl.includes('jack.github.io')) {
+        if (data.viewerUrl && !data.viewerUrl.includes('tabone.code') && !data.viewerUrl.includes('jack.github.io')) {
           try {
             const parsed = new URL(data.viewerUrl);
             if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
